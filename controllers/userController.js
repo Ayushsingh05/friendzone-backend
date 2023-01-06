@@ -5,26 +5,29 @@ const bcrypt =require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const userRegister = async (data)=>{
-    const {name ,email,password,gender} =data;
-    const user =await userModel.findOne({email:email});
-    if(user){
-        return {
-            "status": "failed",
-            "message": 'Email already exists'
-        }
-    }
-    else{
-        if(name && email && password && gender){
+    //   return data
+    // const user =await userModel.findOne({email:data.email});
+    // console.log(data.email);
+    // return data.email;
+    // if(user){
+    //     return {
+    //         "status": "failed",
+    //         "message": 'Email already exists'
+    //     }
+    // }
+    // else{
+        if(data.name && data.email && data.password && data.married){
             try{
                 const salt = await bcrypt.genSalt(10);
-                const hashPassword = await bcrypt.hash(password, salt);
+                const hashPassword = await bcrypt.hash(data.password, salt);
                 const newUser= new userModel({
-                    name: name,
-                    email: email,
+                    name: data.name,
+                    email: data.email,
                     password:hashPassword,
-                    gender: gender
+                    married: data.married
                    })
                  const temp=  await userModel.create(newUser);
+                 console.log(temp);
                  return {
                     "status": "success",
                     "message": 'User Registered Successfully'
@@ -42,7 +45,7 @@ const userRegister = async (data)=>{
                 "message": 'All fields are required'
             }
         }
-    }
+    
 }
 
 module.exports={
