@@ -32,15 +32,16 @@ const userRegister = async (data)=>{
                  
                 //  Generate JWT token
 
-                
+                const token  = jwt.sign({userId:registeredUser._id},process.env.JWT_SECRET_KEY,{expiresIn:'5d'})
                  
                  return {
                     "status": "success",
-                    "message": 'User Registered Successfully'
+                    "message": 'User Registered Successfully',
+                    "token": token
                 }
             }catch(e){
                 return {
-                    "status": "success",
+                    "status": "failed",
                     "message": e.message
                 }
             }
@@ -60,12 +61,14 @@ const userLogin =async(data)=>{
  const {email,password}=data;
  if(email && password){
     const user = await userModel.findOne({ email: email});
+    const token  = jwt.sign({userId:user._id},process.env.JWT_SECRET_KEY,{expiresIn:'5d'})
     if(user !=null){
         const isMatch = await bcrypt.compare(password, user.password);
         if(isMatch && (user.email === email)){
             return {
                 "status": "success",
                 "message": 'Login Successfull',
+                "token": token
             }
         }else{
             return {
@@ -87,8 +90,43 @@ const userLogin =async(data)=>{
     }
  }
     }catch(e){
-
+        return {
+            "status": "failed",
+            "message": e.message
+        }
     }
+}
+
+const changePassword=async(data,id)=>{
+      const {password,confirmPassword} =data;
+      if(password && confirmPassword){
+            if(password !==confirmPassword){
+                return {
+                    "status": "failed",
+                    "message": 'Password does not match'
+                }
+            }else{
+                const salt =await bcrypt.genSalt(10);
+                const hashPassword = await bcrypt.hash(password,salt);
+               await  userModel.findByIdAndUpdate(id,{$set:{
+                password:hashPassword
+               }})
+                return{
+                "status": "success",
+                "message": 'Password Updated Successfully',
+              }
+            }
+      }else{
+        return {
+            "status": "failed",
+            "message": 'All fields are required'
+        }
+      }
+}
+const loggedInUser = async (data)=>{
+ return {
+    "user":data
+ }
 }
 
 
@@ -96,5 +134,7 @@ const userLogin =async(data)=>{
 
 module.exports={
     userRegister,
-    userLogin
+    userLogin,
+    changePassword,
+    loggedInUser
 }
