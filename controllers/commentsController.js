@@ -1,4 +1,4 @@
-const { request } = require('express');
+
 const postModel =require('../models/post');
 
 const commentsController= async (data,id)=>{
