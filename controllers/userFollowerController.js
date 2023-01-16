@@ -5,7 +5,7 @@ const userModel = require("../models/user");
 const userFollowersController = async (data,user) =>{
         try
         {
-        //  console.log(req.body.followId);
+        
         // data =reqy.body;
         // user=req.user
          userModel.findByIdAndUpdate(data.followId,
