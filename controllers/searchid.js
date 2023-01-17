@@ -1,5 +1,5 @@
-const postModel = require('../models/postModel');
-const signupModel = require("../models/signupModel");
+const postModel = require('../models/post');
+const signupModel = require("../models/user");
 
 const searchProfileIdController = async (id) =>{
 // id=req.params.id

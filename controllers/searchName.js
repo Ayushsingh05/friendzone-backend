@@ -1,5 +1,5 @@
 // const postModel = require("../models/post");
-const userModel = require("../models/userModel");
+const userModel = require("../models/user");
 
 const searchProfileController = async (data) => {
     // data=req.body
