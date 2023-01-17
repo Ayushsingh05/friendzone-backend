@@ -1,4 +1,4 @@
-const postModel = require('../models/post');
+
 const userModel = require("../models/user");
 
 
@@ -6,7 +6,7 @@ const userFollowersController = async (data,user) =>{
         try
         {
         
-        // data =reqy.body;
+        // data =req.body;
         // user=req.user
          userModel.findByIdAndUpdate(data.followId,
           { $push:{followers:user._id} },

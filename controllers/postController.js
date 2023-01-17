@@ -4,6 +4,8 @@ const postModel =require('../models/post');
 
 
 const createPost = async(data,user)=>{
+          // data= req.body;
+          // user= req.user
          const {post_title,post_body,post_pic_url}=data;
          if(!post_title || !post_body || !post_pic_url){
             return {
@@ -65,6 +67,7 @@ const createPost = async(data,user)=>{
   }
 
   const getUserPost = async (id)=>{
+    // id=req.user._id
     try{
        const posts= await postModel.find({postedBy:id}).populate("postedBy").sort("-createdAt");
        return {
@@ -81,7 +84,7 @@ const createPost = async(data,user)=>{
   }
 
   const deletePost = async (id)=>{
-     
+    //  id= req.params.postId
     try{
        const post =await postModel.findById({_id:id});
        if(!post){

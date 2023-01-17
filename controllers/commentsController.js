@@ -2,6 +2,8 @@
 const postModel =require('../models/post');
 
 const commentsController= async (data,id)=>{
+   // data=req.body;
+   // id=req.user.id;
           try{
           const  comment ={
             text:data.text,

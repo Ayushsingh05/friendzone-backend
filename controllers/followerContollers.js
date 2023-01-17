@@ -1,6 +1,7 @@
 const userModel =require('../models/user');
 
 const followers = async (data) =>{
+  // data =req.body
     try
     {
       const {email} = data;
