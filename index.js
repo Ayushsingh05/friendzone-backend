@@ -14,7 +14,9 @@ app.use(express.json());
 app.use('/user',userRoute);
 app.use('/profile',profileRoute);
 app.use('/post',postRoute);
-
+ app.get('/',(req,res)=>{
+    res.send("FriendZone is Live Now")
+ })
 connect().then(()=>{
     console.log("connected to database");
 }).catch((err) =>{
