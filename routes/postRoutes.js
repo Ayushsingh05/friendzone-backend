@@ -13,45 +13,46 @@ router.post("/createpost", auth, async (req,res)=>{
           const data=req.body;
           const user=req.user;
           const result = await createPost(data,user);
-          res.send.json(result);
+          res.send(result);
 } );
 router.get("/getcreatepost", auth, async(req,res)=>{
      const result = await getPost();
-     res.send.json(result);
+     res.send(result);
 } );
 
 router.get("/allpost", auth, async(req,res)=>{
      const result = await getAllPost();
-     res.send.json(result);
+     res.send(result);
 });
 router.get("/userPost",auth, async(req,res)=>{
     const id=req.user._id;
     const result = await getUserPost(id);
-    res.send.json(result);
+    res.send(result);
 });
 router.delete("/delete/:postId", auth, async(req,res)=>{
    const  id= req.params.postId;
    const result =await deletePost(id);
-   res.send.json(result);
+   res.send(result);
 });
 
 router.put("/likes",auth, async(req,res)=>{
     const user=req.user;
     const data=req.body
     const result = await likesController(data,user) // data.postId
-    res.send.json(result);
+    res.send(result);
 });
 router.put("/dislikes",auth, async(req,res)=>{
     const user=req.user;
     const data=req.body
     const result = await dislikesController(data,user) // data.postId
-    res.send.json(result);
+    res.send(result);
 });
 
 router.put("/comments",auth, async(req,res)=>{
      const data=req.body;
    const id=req.user.id;
-   const result = await commentsController(data,id); //data.postId ,data.text
+   const result = await commentsController(data,id); 
+   res.send(result);//data.postId ,data.text
 });
 
 

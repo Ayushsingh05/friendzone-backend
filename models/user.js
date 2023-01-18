@@ -31,11 +31,11 @@ const userSchema = new mongoose.Schema({
               },
           followers:[{
                        type:ObjectId,
-                       ref:"UserModel"
+                       ref:"user"
                     }],
           following:[{
                        type:ObjectId,
-                       ref:"UserModel"
+                       ref:"user"
                      }],
           date:
           {

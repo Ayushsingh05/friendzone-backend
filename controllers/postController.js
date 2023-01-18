@@ -52,7 +52,7 @@ const createPost = async(data,user)=>{
         }
   const getAllPost = async ()=>{
     try{
-        const allpost= await postModel.find("postedBy", "_id, name").sort("-createdAt");
+      const allpost = await postModel.find().populate("postedBy").populate("comments.postedBy").sort("-createdAt");
          return{
             "status":"success",
             "message": "All Post get Successfully",

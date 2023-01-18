@@ -9,12 +9,21 @@ const commentsController= async (data,id)=>{
             text:data.text,
             postedBy:id,
           }
-
-          const details= await postModel.findByIdAndDelete(data.postId,{$push:{comments:comment}},{new:true}).populate("comments.postedBy").populate("postedBy");
+          const details = await postModel.findByIdAndUpdate(data.postId, { $push:{comments:comment} }, { new:true} ).
+                                                                      populate("comments.postedBy").populate("postedBy");
+          if(details){
+            return {
+               "status":"success",
+               "data":details,
+              }
+          }
+          else{
            return {
-            "status":"success",
-            "data":details,
-           }
+               "status":"failed",
+               "data":"not find details",
+              }
+          }
+         
           }catch(e){
              return{
                 "status":"error",
