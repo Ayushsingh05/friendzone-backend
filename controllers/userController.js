@@ -4,6 +4,21 @@ const bcrypt =require('bcrypt');
 
 const jwt = require('jsonwebtoken');
 
+
+ const getAllUser= async()=>{
+    try{
+ const users = await userModel.find().sort("-createdAt");
+ return {
+    "status":"success",
+    "data": users
+ }
+    }catch(e){
+        return {
+            "status":"failed",
+            "data": e.message
+         }
+    }
+ }
 const userRegister = async (data)=>{
     //   return data
     const user =await userModel.findOne({email:data.email});
@@ -136,5 +151,6 @@ module.exports={
     userRegister,
     userLogin,
     changePassword,
-    loggedInUser
+    loggedInUser,
+    getAllUser
 }

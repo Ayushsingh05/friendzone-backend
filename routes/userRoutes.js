@@ -1,9 +1,14 @@
 const express = require('express');
-const { userRegister, userLogin, changePassword, loggedInUser } = require('../controllers/userController');
+const { userRegister, userLogin, changePassword, loggedInUser, getAllUser } = require('../controllers/userController');
 const checkUserAuth = require('../middlewares/auth.middleware');
 const routes= express.Router();
 
 
+
+routes.get('/',async(req,res)=>{
+    const users= await getAllUser();
+    res.send(users);
+})
 routes.post('/register', async(req, res)=>{
     const data =req.body;
  console.log('/',data);
