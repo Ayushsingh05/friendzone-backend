@@ -10,7 +10,7 @@ const commentsController= async (data,id)=>{
             postedBy:id,
           }
           const details = await postModel.findByIdAndUpdate(data.postId, { $push:{comments:comment} }, { new:true} ).
-                                                                      populate("comments.postedBy").populate("postedBy");
+                                                                      populate("comments.postedBy",["email name profile_pic"]);
           if(details){
             return {
                "status":"success",
@@ -33,3 +33,16 @@ const commentsController= async (data,id)=>{
 }
 
 module.exports=commentsController
+
+
+// how to use populate in mongoose explain with schema?
+// Items.findOne().populate( 'transactions.user' ).exec( function( err, arr ) {
+//     console.log( arr );
+// } );
+
+
+
+
+//Source: https://stackoverflow.com/questions/33683776
+
+

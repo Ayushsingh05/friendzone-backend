@@ -4,8 +4,6 @@ const postModel =require('../models/post');
 
 
 const createPost = async(data,user)=>{
-          // data= req.body;
-          // user= req.user
          const {post_title,post_body,post_pic_url}=data;
          if(!post_title || !post_body || !post_pic_url){
             return {
@@ -37,7 +35,7 @@ const createPost = async(data,user)=>{
 
   const getPost =async ()=>{
              try{
-           const postData=await postModel.find();
+           const postData=await postModel.find().populate("postedBy").populate("comments.postedBy", "name email profile_pic");
            return{
                "status":"success",
                "message": "Post get Successfully",
@@ -52,7 +50,7 @@ const createPost = async(data,user)=>{
         }
   const getAllPost = async ()=>{
     try{
-      const allpost = await postModel.find().populate("postedBy").populate("comments.postedBy").sort("-createdAt");
+      const allpost = await postModel.find().populate("postedBy").populate("comments.postedBy").select('-password').sort("-createdAt");
          return{
             "status":"success",
             "message": "All Post get Successfully",

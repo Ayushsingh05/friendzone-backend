@@ -38,6 +38,7 @@ router.delete("/delete/:postId", auth, async(req,res)=>{
 router.put("/likes",auth, async(req,res)=>{
     const user=req.user;
     const data=req.body
+    // console.log(data);
     const result = await likesController(data,user) // data.postId
     res.send(result);
 });

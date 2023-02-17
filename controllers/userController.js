@@ -107,7 +107,8 @@ const userLogin =async(data)=>{
     }catch(e){
         return {
             "status": "failed",
-            "message": e.message
+            "message": 'User is not Registered',
+
         }
     }
 }
