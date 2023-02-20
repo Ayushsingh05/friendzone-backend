@@ -5,18 +5,12 @@ const dislikesController = require('../controllers/postDislikes');
 const likesController = require('../controllers/postLikes');
 const router = new express.Router();
 const auth = require("../middlewares/auth.middleware");
+const multer=require('multer');
 
 
 
-
-router.post("/createpost", auth, async (req,res)=>{
-          const data=req.body;
-          const user=req.user;
-          const result = await createPost(data,user);
-          res.send(result);
-} );
 router.get("/getcreatepost", auth, async(req,res)=>{
-     const result = await getPost();
+    const result = await getPost();
      res.send(result);
 } );
 
@@ -51,10 +45,43 @@ router.put("/dislikes",auth, async(req,res)=>{
 
 router.put("/comments",auth, async(req,res)=>{
      const data=req.body;
-   const id=req.user.id;
-   const result = await commentsController(data,id); 
+     const id=req.user.id;
+     const result = await commentsController(data,id); 
    res.send(result);//data.postId ,data.text
 });
+
+const imageConfig= multer.diskStorage({
+    destination:(req,file,callback)=>{
+        callback(null,"./upload_posts")
+    },
+    filename:(req,file,callback)=>{
+        callback(null,`image-${Date.now()}.${file.originalname}`)
+    }
+})
+
+const isImage=(req,file,callback)=>{
+    if(file.mimetype.startswith("image")){
+        callback(null,true)
+    }
+    else{
+        callback(new Error("Only Image is allowed"))
+    }
+}
+
+const upload=multer({
+    storage:imageConfig,
+    fileFilter:isImage,
+})
+
+router.post("/createpost",upload.single("postImage"), auth, async (req,res)=>{
+          const data=req.body;
+          const user=req.user;
+          const {filename}=req.file;
+          const result = await createPost(data,user,filename);
+          res.send(result);
+} );
+
+router.post("/uploadImage")
 
 
 module.exports = router;

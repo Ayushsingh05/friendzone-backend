@@ -1,8 +1,6 @@
 
 const postModel =require('../models/post');
 
-
-
 const createPost = async(data,user)=>{
          const {post_title,post_body,post_pic_url}=data;
          if(!post_title || !post_body || !post_pic_url){
